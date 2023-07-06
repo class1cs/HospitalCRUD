@@ -1,0 +1,360 @@
+﻿<Page
+    x:Class="HospitalBaseApp.Pages.GeneralDoctorPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:HospitalBaseApp.Pages"
+    xmlns:mah="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="GeneralDoctorPage"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    DataContext="{Binding Source={StaticResource vmLocator}, Path=GeneralDoctorViewModel}"
+    mc:Ignorable="d">
+
+    <Grid>
+        <TabControl mah:HeaderedControlHelper.HeaderFontSize="20" Style="{DynamicResource MahApps.Styles.TabControl.AnimatedSingleRow}">
+            <TabItem mah:HeaderedControlHelper.HeaderFontWeight="SemiBold" Header="Записи на прием">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="50" />
+                        <RowDefinition Height="7*" />
+                    </Grid.RowDefinitions>
+
+                    <StackPanel
+                        Height="40"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Orientation="Horizontal">
+                        <Button
+                            Margin="0,0,5,0"
+                            Command="{Binding ShowAddAppointmentDialogCommand}"
+                            Content="Записать на прием" />
+                        <Button
+                            Margin="0,0,5,0"
+                            Command="{Binding RemoveAppointmentCommand}"
+                            CommandParameter="{Binding ElementName=appointments, Path=SelectedItem}"
+                            Content="Удалить запись на прием" />
+                        <Button
+                            Command="{Binding ShowEditAppointmentDialog}"
+                            CommandParameter="{Binding ElementName=appointments, Path=SelectedItem}"
+                            Content="Редактировать запись на прием" />
+
+                    </StackPanel>
+
+
+                    <DataGrid
+                        x:Name="appointments"
+                        Grid.Row="1"
+                        Margin="5"
+                        AutoGenerateColumns="False"
+                        BorderBrush="Black"
+                        CanUserAddRows="False"
+                        CanUserDeleteRows="False"
+                        CanUserReorderColumns="False"
+                        CanUserResizeColumns="False"
+                        CanUserResizeRows="False"
+                        CanUserSortColumns="False"
+                        EnableRowVirtualization="True"
+                        HeadersVisibility="Column"
+                        IsReadOnly="True"
+                        ItemsSource="{Binding Appointments, Mode=TwoWay}"
+                        SelectedItem="{Binding SelectedAppointment}"
+                        SelectionMode="Single">
+
+                        <DataGrid.Columns>
+
+                            <DataGridTextColumn
+                                Width="1.3*"
+                                Binding="{Binding Doctor.NSP, Mode=TwoWay}"
+                                Header="Пациент" />
+                            <DataGridTextColumn
+                                Width="1.3*"
+                                Binding="{Binding Patient, Mode=TwoWay}"
+                                Header="Пациент" />
+                            <DataGridTextColumn
+                                Width="2*"
+                                Binding="{Binding Time, Mode=TwoWay}"
+                                Header="Время приема" />
+                            <DataGridTextColumn
+                                Width="2*"
+                                Binding="{Binding Ill, Mode=TwoWay}"
+                                Header="Болезнь" />
+
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </TabItem>
+            <TabItem
+                x:Name="operationsRecords"
+                mah:HeaderedControlHelper.HeaderFontWeight="SemiBold"
+                Header="Записи на операции">
+
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="50" />
+                        <RowDefinition Height="7*" />
+                    </Grid.RowDefinitions>
+
+                    <StackPanel
+                        Height="40"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Orientation="Horizontal">
+                        <Button
+                            Margin="0,0,5,0"
+                            Command="{Binding ShowAddOperationRecordDialogCommand}"
+                            Content="Записать на операцию" />
+                        <Button
+                            Margin="0,0,5,0"
+                            Command="{Binding RemoveOperationRecordCommand}"
+                            CommandParameter="{Binding ElementName=operationstable, Path=SelectedItem}"
+                            Content="Удалить запись на операцию" />
+                        <Button
+                            Command="{Binding ShowEditOperationRecordDialogCommand}"
+                            CommandParameter="{Binding ElementName=operationstable, Path=SelectedItem}"
+                            Content="Редактировать запись на операцию" />
+
+                    </StackPanel>
+
+
+                    <DataGrid
+                        x:Name="operationstable"
+                        Grid.Row="1"
+                        Margin="5"
+                        AutoGenerateColumns="False"
+                        CanUserAddRows="False"
+                        CanUserDeleteRows="False"
+                        CanUserReorderColumns="False"
+                        CanUserResizeColumns="False"
+                        CanUserResizeRows="False"
+                        CanUserSortColumns="False"
+                        EnableRowVirtualization="True"
+                        HeadersVisibility="Column"
+                        IsReadOnly="True"
+                        ItemsSource="{Binding OperationRecords, Mode=TwoWay}"
+                        SelectedItem="{Binding SelectedOperationRecord}"
+                        SelectionMode="Single">
+                        <DataGrid.Columns>
+
+                            <DataGridTextColumn
+                                Width="1.3*"
+                                Binding="{Binding Operation.OperationName, Mode=TwoWay}"
+                                Header="Операция" />
+                            <DataGridTextColumn
+                                Width="2*"
+                                Binding="{Binding Operable.NSP, Mode=TwoWay}"
+                                Header="Оперируемый" />
+                            <DataGridTextColumn
+                                Width="2*"
+                                Binding="{Binding Surgeon.NSP, Mode=TwoWay}"
+                                Header="Хирург" />
+                            <DataGridTextColumn
+                                Width="*"
+                                Binding="{Binding Status, Mode=TwoWay}"
+                                Header="Статус" />
+
+                            <DataGridTextColumn
+                                Width="2*"
+                                Binding="{Binding Operation.OperationComplexity, Mode=TwoWay}"
+                                Header="Сложность операции" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+
+            </TabItem>
+            <TabItem
+                x:Name="medicamentstab"
+                mah:HeaderedControlHelper.HeaderFontWeight="SemiBold"
+                Header="Врачи">
+
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="50" />
+                        <RowDefinition Height="7*" />
+                    </Grid.RowDefinitions>
+
+                    <StackPanel
+                        Height="40"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Orientation="Horizontal">
+                        <Button
+                            Margin="0,0,5,0"
+                            Command="{Binding ShowAddDoctorDialogCommand}"
+                            Content="Добавить врача" />
+                        <Button
+                            Margin="0,0,5,0"
+                            Command="{Binding RemoveDoctorCommand}"
+                            Content="Удалить врача" />
+                        <Button Command="{Binding ShowEditDoctorDialogCommand}" Content="Редактировать досье врача" />
+
+                    </StackPanel>
+
+
+                    <DataGrid
+                        Grid.Row="1"
+                        Margin="5"
+                        AutoGenerateColumns="False"
+                        CanUserAddRows="False"
+                        CanUserDeleteRows="False"
+                        CanUserReorderColumns="False"
+                        CanUserResizeColumns="False"
+                        CanUserResizeRows="False"
+                        CanUserSortColumns="False"
+                        EnableRowVirtualization="True"
+                        IsReadOnly="True"
+                        ItemsSource="{Binding Doctors}"
+                        SelectedItem="{Binding SelectedDoctor}"
+                        SelectionMode="Single">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn
+                                Width="1.2*"
+                                Binding="{Binding Login}"
+                                Header="Имя пользователя" />
+                            <DataGridTextColumn
+                                Width="2*"
+                                Binding="{Binding NSP}"
+                                Header="ФИО" />
+
+                            <DataGridTextColumn
+                                Width="*"
+                                Binding="{Binding Birthday}"
+                                Header="Дата рождения" />
+                            <DataGridTextColumn
+                                Width="*"
+                                Binding="{Binding PhoneNumber}"
+                                Header="Номер телефона" />
+                            <DataGridTextColumn
+                                Width="*"
+                                Binding="{Binding Role}"
+                                Header="Тип" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </TabItem>
+            <TabItem
+                x:Name="OperationsTypes"
+                mah:HeaderedControlHelper.HeaderFontWeight="SemiBold"
+                Header="Операции">
+
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="50" />
+                        <RowDefinition Height="7*" />
+                    </Grid.RowDefinitions>
+                    <StackPanel
+                        Height="40"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Orientation="Horizontal">
+                        <Button
+                            Margin="0,0,5,0"
+                            Command="{Binding ShowAddOperationDialogCommand}"
+                            Content="Добавить операцию" />
+                        <Button
+                            Margin="0,0,5,0"
+                            Command="{Binding RemoveOperationCommand}"
+                            CommandParameter="{Binding ElementName=operationbaselist, Path=SelectedItem}"
+                            Content="Удалить операцию" />
+                        <Button
+                            Command="{Binding ShowEditOperationDialogCommand}"
+                            CommandParameter="{Binding ElementName=operationbaselist, Path=SelectedItem}"
+                            Content="Редактировать операцию" />
+
+                    </StackPanel>
+                    <DataGrid
+                        Name="operationbaselist"
+                        Grid.Row="1"
+                        Margin="5"
+                        AutoGenerateColumns="False"
+                        CanUserAddRows="False"
+                        CanUserDeleteRows="False"
+                        CanUserReorderColumns="False"
+                        CanUserResizeColumns="False"
+                        CanUserResizeRows="False"
+                        CanUserSortColumns="False"
+                        EnableRowVirtualization="True"
+                        IsReadOnly="True"
+                        ItemsSource="{Binding Operations}"
+                        SelectedItem="{Binding SelectedOperation}"
+                        SelectionMode="Single">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn
+                                Width="*"
+                                Binding="{Binding OperationName}"
+                                Header="Название операции" />
+                            <DataGridTextColumn
+                                Width="*"
+                                Binding="{Binding OperationComplexity}"
+                                Header="Сложность операции" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </TabItem>
+            <TabItem
+                x:Name="patientsTab"
+                mah:HeaderedControlHelper.HeaderFontWeight="SemiBold"
+                Header="Пациенты">
+
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="50" />
+                        <RowDefinition Height="7*" />
+                    </Grid.RowDefinitions>
+                    <StackPanel
+                        Height="40"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Orientation="Horizontal">
+                        <Button
+                            Margin="0,0,5,0"
+                            Command="{Binding ShowAddPatientDialogCommand}"
+                            Content="Добавить пациента" />
+                        <Button
+                            Margin="0,0,5,0"
+                            Command="{Binding RemovePatientCommand}"
+                            CommandParameter="{Binding ElementName=patientslist, Path=SelectedItem}"
+                            Content="Удалить пациента" />
+                        <Button
+                            Command="{Binding ShowEditPatientDialogCommand}"
+                            CommandParameter="{Binding ElementName=patientslist, Path=SelectedItem}"
+                            Content="Редактировать данные пациента" />
+
+                    </StackPanel>
+                    <DataGrid
+                        Name="patientslist"
+                        Grid.Row="1"
+                        Margin="5"
+                        AutoGenerateColumns="False"
+                        CanUserAddRows="False"
+                        CanUserDeleteRows="False"
+                        CanUserReorderColumns="False"
+                        CanUserResizeColumns="False"
+                        CanUserResizeRows="False"
+                        CanUserSortColumns="False"
+                        EnableRowVirtualization="True"
+                        IsReadOnly="True"
+                        ItemsSource="{Binding Patients}"
+                        SelectedItem="{Binding SelectedPatient}"
+                        SelectionMode="Single">
+                        <DataGrid.Columns>
+
+                            <DataGridTextColumn
+                                Width="*"
+                                Binding="{Binding NSP}"
+                                Header="ФИО" />
+
+                            <DataGridTextColumn
+                                Width="*"
+                                Binding="{Binding Sex}"
+                                Header="Пол" />
+
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </TabItem>
+
+        </TabControl>
+    </Grid>
+</Page>
